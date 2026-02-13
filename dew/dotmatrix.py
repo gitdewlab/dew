@@ -216,7 +216,7 @@ class dotmatrix(FrameBuffer):
     def text(self, s, x=0, y=0, c=1):
         super().text(s, x, y, c)
 
-    def matrix(self, s, glyphs, x_offset=0, y_offset=0):
+    def matrix(self, s, glyphs=GLYPHS, x_offset=0, y_offset=0):
         col = 0
         for char in s:
             glyph = glyphs.get(char)
