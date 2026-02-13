@@ -13,7 +13,6 @@ TIMEZONE_OFFSET_SECONDS = 19800
 
 ota = ota.ota()
 led = machine.Pin(2, machine.Pin.OUT)
-
 spi = machine.SPI(2, baudrate=10000000, polarity=1, phase=0, sck=machine.Pin(18), mosi=machine.Pin(23))
 cs = machine.Pin(5, machine.Pin.OUT)
 display = dotmatrix.dotmatrix(spi, cs, 4)
@@ -88,7 +87,34 @@ while True:
         else:
             display.clear()
             display.text("::::")
-            display.show()            
+            display.show()
+            if wlan.isconnected():
+                try:
+                    ntptime.settime()
+                    display.clear()
+                    display.fill(1)
+                    display.show()
+                    time_valid = True
+                except OSError as e:
+                    display.clear()
+                    display.fill(0)
+                    display.show()
+            else:
+                try:
+                    ota.wificonnect()
+                    if wlan.isconnected():
+                        try:
+                            ntptime.settime()
+                            display.clear()
+                            display.fill(1)
+                            display.show()
+                            time_valid = True
+                        except OSError as e:
+                            display.clear()
+                            display.fill(0)
+                            display.show()
+                except OSError as e:
+                    pass
         screen_update_due = False
         
     if ntp_update_due:
@@ -101,6 +127,7 @@ while True:
                 time_valid = True
             except OSError as e:
                 display.clear()
+                display.fill(0)
                 display.show()
         else:
             try:
@@ -114,6 +141,7 @@ while True:
                         time_valid = True
                     except OSError as e:
                         display.clear()
+                        display.fill(0)
                         display.show()
             except OSError as e:
                 pass
