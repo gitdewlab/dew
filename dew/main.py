@@ -15,7 +15,7 @@ display.brightness(5)
 display.clear()
 display.show()
 
-display.text("SONA")
+display.text("LIFE")
 display.show()
 
 while True:
