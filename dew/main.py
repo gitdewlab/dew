@@ -80,8 +80,8 @@ while True:
             display.matrix("8", x_offset=1)
             display.matrix("8", x_offset=8)
             display.matrix(":", x_offset=15)
-            display.matrix("8", x_offset=19)
-            display.matrix("8", x_offset=26)
+            display.matrix("8", x_offset=18)
+            display.matrix("8", x_offset=25)
             display.show()
         else:
             display.clear()
