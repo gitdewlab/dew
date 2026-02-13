@@ -75,13 +75,16 @@ while True:
             print("Local time tuple:", current_local_time)
             # You can format the tuple into a readable string if needed
             print("Local time: {0}/{1}/{2} {3}:{4}:{5}".format(*current_local_time))
+            current_time = "{:02d}:{:02d}:{:02d}".format(current_local_time[3], current_local_time[4], current_local_time[5])
+            print(current_time)
+            
             display.clear()
             #display.text("TIME")
-            display.matrix("8", x_offset=1)
-            display.matrix("8", x_offset=8)
-            display.matrix(":", x_offset=15)
-            display.matrix("8", x_offset=18)
-            display.matrix("8", x_offset=25)
+            display.matrix(str(current_time[3]), x_offset=1)
+            display.matrix(str(current_time[4]), x_offset=8)
+            display.matrix(str(current_time[5]), x_offset=15)
+            display.matrix(str(current_time[6]), x_offset=18)
+            display.matrix(str(current_time[7]), x_offset=25)
             display.show()
         else:
             display.clear()
