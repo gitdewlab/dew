@@ -59,7 +59,7 @@ def screen_update(timer):
     screen_update_due = True
     
 screen_timer.init(mode=machine.Timer.PERIODIC, period=500, callback=screen_update)
-ntp_timer.init(mode=machine.Timer.PERIODIC, period=10000, callback=ntp_update)
+ntp_timer.init(mode=machine.Timer.PERIODIC, period=300000, callback=ntp_update)
 
 def get_local_time(offset_seconds):
     utc_seconds = time.time()
