@@ -74,7 +74,13 @@ while True:
         # You can format the tuple into a readable string if needed
         print("Local time: {0}/{1}/{2} {3}:{4}:{5}".format(*current_local_time))
         display.clear()
-        display.text("TIME")
+        #display.text("TIME")
+        display.matrix("2", x_offset=2)
+        display.matrix("8", x_offset=7)
+        display.matrix("6", x_offset=12)
+        display.matrix("9", x_offset=17)
+        display.matrix("3", x_offset=22)
+        display.matrix("7", x_offset=27)
         display.show()
         screen_update_due = False
         
