@@ -82,7 +82,7 @@ while True:
             #display.text("TIME")
             display.matrix(str(current_time[0]), x_offset=1)
             display.matrix(str(current_time[1]), x_offset=8)
-            if led.value:
+            if led.value():
                 display.matrix(str(current_time[2]), x_offset=15)
             display.matrix(str(current_time[3]), x_offset=18)
             display.matrix(str(current_time[4]), x_offset=25)
