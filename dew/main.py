@@ -20,7 +20,7 @@ display.brightness(3)
 display.clear()
 display.show()
 
-display.text("LIFE")
+display.text("TIME")
 display.show()
 
 time.sleep(2)
@@ -35,6 +35,7 @@ ntp_update_timer_id = 3
 
 screen_update_due = False
 ntp_update_due = False
+time_valid = False
 
 screen_timer = machine.Timer(screen_update_timer_id)
 ntp_timer = machine.Timer(ntp_update_timer_id)
@@ -45,9 +46,9 @@ wlan.active(True)
 if wlan.isconnected():
     try:
         ntptime.settime()
-        print("Time synchronized with NTP server")
+        time_valid = True
     except OSError as e:
-        print(f"error: {e}")
+        pass
 
 def ntp_update(timer):
     global ntp_update_due
@@ -68,32 +69,39 @@ def get_local_time(offset_seconds):
 
 while True:
     if screen_update_due:
-        led.value(not led.value())
-        current_local_time = get_local_time(TIMEZONE_OFFSET_SECONDS)
-        print("Local time tuple:", current_local_time)
-        # You can format the tuple into a readable string if needed
-        print("Local time: {0}/{1}/{2} {3}:{4}:{5}".format(*current_local_time))
-        display.clear()
-        #display.text("TIME")
-        display.matrix("2", x_offset=2)
-        display.matrix("8", x_offset=7)
-        display.matrix("6", x_offset=12)
-        display.matrix("9", x_offset=17)
-        display.matrix("3", x_offset=22)
-        display.matrix("7", x_offset=27)
-        display.show()
+        if not time_valid: # ---------
+            led.value(not led.value())
+            current_local_time = get_local_time(TIMEZONE_OFFSET_SECONDS)
+            print("Local time tuple:", current_local_time)
+            # You can format the tuple into a readable string if needed
+            print("Local time: {0}/{1}/{2} {3}:{4}:{5}".format(*current_local_time))
+            display.clear()
+            #display.text("TIME")
+            display.matrix("8", x_offset=1)
+            display.matrix("8", x_offset=8)
+            display.matrix(":", x_offset=14)
+            display.matrix("8", x_offset=19)
+            display.matrix("8", x_offset=26)
+            display.show()
+        else:
+            display.clear()
+            display.text("::::")
+            display.show()            
         screen_update_due = False
         
     if ntp_update_due:
         if wlan.isconnected():
             try:
                 ntptime.settime()
-                print("Time synchronized with NTP server")
+                display.clear()
+                display.text("SYNC")
+                display.show()
+                time_valid = True
             except OSError as e:
-                print(f"error: {e}")
-        display.clear()
-        display.text("SYNC")
-        display.show()
+                display.clear()
+                display.text("::::")
+                display.show()
+                time_valid = False
         ntp_update_due = False
          
-    time.sleep(0.025)
+    time.sleep(0.05)
