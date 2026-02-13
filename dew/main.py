@@ -1,4 +1,5 @@
 import gc
+import ota
 import time
 import machine
 import network
@@ -100,6 +101,20 @@ while True:
             except OSError as e:
                 display.clear()
                 display.show()
-        ntp_update_due = False
-         
+        else:
+            try:
+                ota.wificonnect()
+                if wlan.isconnected():
+                    try:
+                        ntptime.settime()
+                        display.clear()
+                        display.fill(1)
+                        display.show()
+                        time_valid = True
+                    except OSError as e:
+                        display.clear()
+                        display.show()
+            except OSError as e:
+                pass
+        ntp_update_due = False       
     time.sleep(0.05)
