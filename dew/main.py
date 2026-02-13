@@ -11,6 +11,7 @@ gc.enable()
 
 TIMEZONE_OFFSET_SECONDS = 19800
 
+ota = ota.ota()
 led = machine.Pin(2, machine.Pin.OUT)
 
 spi = machine.SPI(2, baudrate=10000000, polarity=1, phase=0, sck=machine.Pin(18), mosi=machine.Pin(23))
@@ -116,5 +117,6 @@ while True:
                         display.show()
             except OSError as e:
                 pass
-        ntp_update_due = False       
+        ntp_update_due = False
+
     time.sleep(0.05)
