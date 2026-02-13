@@ -59,7 +59,7 @@ def screen_update(timer):
     screen_update_due = True
     
 screen_timer.init(mode=machine.Timer.PERIODIC, period=500, callback=screen_update)
-ntp_timer.init(mode=machine.Timer.PERIODIC, period=300000, callback=ntp_update)
+ntp_timer.init(mode=machine.Timer.PERIODIC, period=10000, callback=ntp_update)
 
 def get_local_time(offset_seconds):
     utc_seconds = time.time()
@@ -72,21 +72,16 @@ while True:
         if time_valid: # ---------
             led.value(not led.value())
             current_local_time = get_local_time(TIMEZONE_OFFSET_SECONDS)
-            #print("Local time tuple:", current_local_time)
-            # format the tuple into a readable string if needed
             #print("Local time: {0}/{1}/{2} {3}:{4}:{5}".format(*current_local_time))
             current_time = "{:02d}:{:02d}:{:02d}".format(current_local_time[3], current_local_time[4], current_local_time[5])
-            print(current_time)
             
             display.clear()
-            #display.text("TIME")
             display.matrix(str(current_time[0]), x_offset=1)
             display.matrix(str(current_time[1]), x_offset=8)
-            if led.value():
+            if not led.value():
                 display.matrix(str(current_time[2]), x_offset=15)
             display.matrix(str(current_time[3]), x_offset=18)
             display.matrix(str(current_time[4]), x_offset=25)
-            
             display.show()
         else:
             display.clear()
@@ -99,12 +94,12 @@ while True:
             try:
                 ntptime.settime()
                 display.clear()
-                display.text("SYNC")
+                display.fill(1)
                 display.show()
                 time_valid = True
             except OSError as e:
                 display.clear()
-                display.text("::::")
+                display.fill(0)
                 display.show()
                 time_valid = False
         ntp_update_due = False
