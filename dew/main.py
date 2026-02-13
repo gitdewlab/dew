@@ -99,9 +99,7 @@ while True:
                 time_valid = True
             except OSError as e:
                 display.clear()
-                display.fill(0)
                 display.show()
-                time_valid = False
         ntp_update_due = False
          
     time.sleep(0.05)
