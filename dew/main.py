@@ -71,7 +71,7 @@ def get_local_time(offset_seconds):
 
 while True:
     if screen_update_due:
-        if time_valid: # ---------
+        if time_valid:
             led.value(not led.value())
             current_local_time = get_local_time(TIMEZONE_OFFSET_SECONDS)
             #print("Local time: {0}/{1}/{2} {3}:{4}:{5}".format(*current_local_time))
