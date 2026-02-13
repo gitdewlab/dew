@@ -79,7 +79,7 @@ while True:
             #display.text("TIME")
             display.matrix("8", x_offset=1)
             display.matrix("8", x_offset=8)
-            display.matrix(":", x_offset=14)
+            display.matrix(":", x_offset=15)
             display.matrix("8", x_offset=19)
             display.matrix("8", x_offset=26)
             display.show()
