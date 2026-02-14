@@ -38,6 +38,6 @@ def demo(np):
         np[i] = (0, 0, 0)
     np.write()
 
-while true:
+while True:
   demo(np)
 
