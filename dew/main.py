@@ -23,6 +23,28 @@ def demo(np):
         np.write()
         time.sleep_ms(60)
 
+    # bounce
+    for i in range(4 * n):
+        for j in range(n):
+            np[j] = (0, 128, 0)
+        if (i // n) % 2 == 0:
+            np[i % n] = (0, 0, 0)
+        else:
+            np[n - 1 - (i % n)] = (0, 0, 0)
+        np.write()
+        time.sleep_ms(60)
+
+        # bounce
+    for i in range(4 * n):
+        for j in range(n):
+            np[j] = (128, 0, 0)
+        if (i // n) % 2 == 0:
+            np[i % n] = (0, 0, 0)
+        else:
+            np[n - 1 - (i % n)] = (0, 0, 0)
+        np.write()
+        time.sleep_ms(60)
+
     # fade in/out
     for i in range(0, 4 * 256, 8):
         for j in range(n):
