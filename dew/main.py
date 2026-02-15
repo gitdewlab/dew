@@ -13,7 +13,7 @@ VCC                5V
 
 GND                GND
 
-DIN                P00
+DIN                D13
 
 
 """
