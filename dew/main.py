@@ -1,3 +1,24 @@
+"""
+
+24 BIT NEOPIXEL PATTERN CLOCK
+
+NETWORK TIME SYNCHRONISED
+
+
+NEOPIXEL RING CONNECTION:
+
+NEOPIXEL           ESP32
+
+VCC                5V
+
+GND                GND
+
+DIN                P00
+
+
+"""
+
+
 import machine, neopixel, time
 np = neopixel.NeoPixel(machine.Pin(13), 24)
 
