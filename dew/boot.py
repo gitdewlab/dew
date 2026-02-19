@@ -8,7 +8,7 @@ ota = ota.ota(
   repo="dew",
   branch="main",
   working_dir="dew",
-  files = ["boot.py", "main.py", "dotmatrix.py"]
+  files = ["boot.py", "sensor.py", "dotmatrix.py", "main.py"]
 )
 
 try:
