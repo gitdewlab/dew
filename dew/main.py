@@ -56,8 +56,10 @@ SPI_BUS_COMMUNICATION_BAUDRATE = 10000000
 SPI_BUS_CLK_PIN = 18
 SPI_BUS_DOUT_PIN = 23
 DOTMATRIX_CHIPSELECT_PIN = 5
-DOTMATRIX_BRIGHTNESS_LEVEL = 3
 DOTMATRIX_NUMBER_OF_MODULES = 4
+DOTMATRIX_BRIGHTNESS_LEVEL_DARK = 3
+DOTMATRIX_BRIGHTNESS_LEVEL_LIGHT = 10
+LIGHT_SENSOR_DOUT_PIN = 15
 ONBOARD_LED_BLINK_PIN = 2
 WDT_TIMEOUT_MS = 30000
 DOT_MATRIX_STARTUP_MESSAGE = "TIME"
@@ -72,6 +74,7 @@ led = machine.Pin(ONBOARD_LED_BLINK_PIN, machine.Pin.OUT)
 spi = machine.SPI(SPI_BUS_FOR_DOTMATRIX_DISPLAY, baudrate=SPI_BUS_COMMUNICATION_BAUDRATE, polarity=1, phase=0, sck=machine.Pin(SPI_BUS_CLK_PIN), mosi=machine.Pin(SPI_BUS_DOUT_PIN))
 cs = machine.Pin(DOTMATRIX_CHIPSELECT_PIN, machine.Pin.OUT)
 display = dotmatrix.dotmatrix(spi, cs, DOTMATRIX_NUMBER_OF_MODULES)
+dark = machine.Pin(LIGHT_SENSOR_DOUT_PIN, machine.Pin.IN, machine.Pin.PULL_UP)
 wdt = machine.WDT(timeout=WDT_TIMEOUT_MS)
 
 screen_update_due = False
@@ -80,7 +83,7 @@ system_time_synchronised = False
 
 screen_timer = machine.Timer(SCREEN_UPDATE_HARDWARE_TIMER_ID)
 ntp_timer = machine.Timer(NTP_UPDATE_HARDWARE_TIMER_ID)
-display.brightness(DOTMATRIX_BRIGHTNESS_LEVEL)
+display.brightness(DOTMATRIX_BRIGHTNESS_LEVEL_DARK)
 
 ap_if = network.WLAN(network.AP_IF)
 if ap_if.active():
@@ -202,4 +205,8 @@ while True:
                 pass
         ntp_update_due = False
 
+    if dark.value():
+        display.brightness(DOTMATRIX_BRIGHTNESS_LEVEL_DARK)
+    else:
+        display.brightness(DOTMATRIX_BRIGHTNESS_LEVEL_LIGHT)
     time.sleep(0.05)
