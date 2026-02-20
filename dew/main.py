@@ -8,9 +8,10 @@ DARKNESS SENSITIVE DISPLAY
 
 8x32 MAX7219 DOTMATRIX SPACE
 
+
 ------------------------------
 DOTMATRIX MODULE CONNECTION:
-
+------------------------------
 DOTMATRIX          ESP32
 
 VCC                5V
@@ -26,7 +27,7 @@ CLK                D18
 
 ------------------------------
 LIGHT SENSOR MODULE CONNECTION:
-
+------------------------------
 LIGHT SENSOR       ESP32
 
 VCC                3V3
@@ -45,6 +46,9 @@ import machine
 import network
 import ntptime
 import dotmatrix
+
+
+################# SETTINGS #################
 
 TIMEZONE_OFFSET_SECONDS = 19800
 SCREEN_UPDATE_INTERVAL_MS = 500
@@ -65,6 +69,9 @@ WDT_TIMEOUT_MS = 30000
 DOT_MATRIX_STARTUP_MESSAGE = "TIME"
 DOT_MATRIX_STARTUP_MESSAGE_DURATION = 2
 DOT_MATRIX_STARTUP_BLANK_DURATION = 1
+
+################# SETTINGS #################
+
 
 gc.collect()
 gc.enable()
@@ -209,4 +216,5 @@ while True:
         display.brightness(DOTMATRIX_BRIGHTNESS_LEVEL_DARK)
     else:
         display.brightness(DOTMATRIX_BRIGHTNESS_LEVEL_LIGHT)
+        
     time.sleep(0.05)
