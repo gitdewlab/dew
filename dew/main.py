@@ -4,9 +4,11 @@ DOTMATRIX DIGITAL CLOCK
 
 NETWORK TIME SYNCHRONISED
 
+DARKNESS SENSITIVE DISPLAY
+
 8x32 MAX7219 DOTMATRIX SPACE
 
-
+------------------------------
 DOTMATRIX MODULE CONNECTION:
 
 DOTMATRIX          ESP32
@@ -20,6 +22,19 @@ DIN                D23
 CS                 D5
 
 CLK                D18
+------------------------------
+
+------------------------------
+LIGHT SENSOR MODULE CONNECTION:
+
+LIGHT SENSOR       ESP32
+
+VCC                3V3
+
+GND                GND
+
+DOUT               D15
+------------------------------
 
 """
 
