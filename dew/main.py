@@ -19,10 +19,23 @@ DIN                D13
 """
 
 
-import machine, neopixel, time
-np = neopixel.NeoPixel(machine.Pin(13), 24)
+import time
+import machine
+import neopixel
 
-def demo(np):
+
+################# SETTINGS #################
+
+NEOPIXEL_DATA_PIN = 13
+NEOPIXEL_PIXEL_COUNT = 24
+NEOPIXEL_PATTERN_DELAY_MS = 60
+
+################# SETTINGS #################
+
+
+np = neopixel.NeoPixel(machine.Pin(NEOPIXEL_DATA_PIN), NEOPIXEL_PIXEL_COUNT)
+
+def pattern(np):
     n = np.n
 
     # cycle
@@ -171,4 +184,4 @@ def demo(np):
     np.write()
 
 while True:
-  demo(np)
+  pattern(np)
