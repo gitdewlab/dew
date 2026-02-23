@@ -18,7 +18,7 @@ display.clear()
 display.show()
 
 # show text using FrameBuffer's font
-display.text("LIFE")
+display.text("TIME")
 display.show()
 
 # shutdown display
