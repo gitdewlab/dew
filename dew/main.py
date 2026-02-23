@@ -33,7 +33,7 @@ NEOPIXEL_PATTERN_DELAY_MS = 60
 ################# SETTINGS #################
 
 
-np = neopixel.NeoPixel(machine.Pin(NEOPIXEL_DATA_PIN), NEOPIXEL_PIXEL_COUNT)
+np = neopixel.NeoPixel(machine.Pin(NEOPIXEL_DATA_PIN, machine.PIN.OUT), NEOPIXEL_PIXEL_COUNT)
 
 def pattern(np):
     n = np.n
