@@ -38,6 +38,8 @@ np = neopixel.NeoPixel(machine.Pin(NEOPIXEL_DATA_PIN, machine.PIN.OUT), NEOPIXEL
 def pattern(np):
     n = np.n
 
+
+"""    
     # cycle
     for i in range(4 * n):
         for j in range(n):
@@ -182,6 +184,8 @@ def pattern(np):
     for i in range(n):
         np[i] = (0, 0, 0)
     np.write()
+
+"""
 
 while True:
   pattern(np)
