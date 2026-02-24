@@ -45,6 +45,7 @@ import time
 import machine
 import network
 import ntptime
+import neopixel
 import dotmatrix
 
 
@@ -83,6 +84,19 @@ cs = machine.Pin(DOTMATRIX_CHIPSELECT_PIN, machine.Pin.OUT)
 display = dotmatrix.dotmatrix(spi, cs, DOTMATRIX_NUMBER_OF_MODULES)
 dark = machine.Pin(LIGHT_SENSOR_DOUT_PIN, machine.Pin.IN, machine.Pin.PULL_UP)
 wdt = machine.WDT(timeout=WDT_TIMEOUT_MS)
+
+np = neopixel.NeoPixel(machine.Pin(33), 24)
+
+def pattern(np):
+    n = np.n
+
+    # cycle
+    for i in range(4 * n):
+        for j in range(n):
+            np[j] = (0, 0, 0)
+        np[i % n] = (255, 255, 255)
+        np.write()
+
 
 screen_update_due = False
 ntp_update_due = False
@@ -180,6 +194,7 @@ while True:
                 except OSError as e:
                     pass
         wdt.feed()
+        pattern(np)
         screen_update_due = False
         
     if ntp_update_due:
