@@ -23,7 +23,7 @@ import time
 import machine
 import neopixel
 
-
+"""
 ################# SETTINGS #################
 
 NEOPIXEL_DATA_PIN = 13
@@ -35,11 +35,13 @@ NEOPIXEL_PATTERN_DELAY_MS = 60
 
 np = neopixel.NeoPixel(machine.Pin(NEOPIXEL_DATA_PIN, machine.PIN.OUT), NEOPIXEL_PIXEL_COUNT)
 
-def pattern(np):
+"""
+
+np = neopixel.NeoPixel(machine.Pin(13), 24)
+
+def demo(np):
     n = np.n
 
-
-    
     # cycle
     for i in range(4 * n):
         for j in range(n):
@@ -185,7 +187,5 @@ def pattern(np):
         np[i] = (0, 0, 0)
     np.write()
 
-
-
 while True:
-  pattern(np)
+  demo(np)
