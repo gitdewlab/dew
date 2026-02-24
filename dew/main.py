@@ -39,7 +39,7 @@ def pattern(np):
     n = np.n
 
 
-"""    
+    
     # cycle
     for i in range(4 * n):
         for j in range(n):
@@ -185,7 +185,7 @@ def pattern(np):
         np[i] = (0, 0, 0)
     np.write()
 
-"""
+
 
 while True:
   pattern(np)
