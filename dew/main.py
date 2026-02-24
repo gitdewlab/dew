@@ -164,8 +164,8 @@ def rainbow():
             pixelColor = colorPointer & 255 - 170
             neo[i] = (0, pixelColor * 3, 255 - pixelColor * 3)
         colorPointer = colorPointer + 1
-    if colorPointer > 255:
-        colorPointer = 0
+        if colorPointer > 255:
+            colorPointer = 0
     neo.write()
 
 screen_timer.init(mode=machine.Timer.PERIODIC, period=SCREEN_UPDATE_INTERVAL_MS, callback=screen_update)
