@@ -101,18 +101,6 @@ neo = neopixel.NeoPixel(machine.Pin(NEOPIXEL_DATA_PIN), NEOPIXEL_PIXEL_COUNT)
 dark = machine.Pin(LIGHT_SENSOR_DOUT_PIN, machine.Pin.IN, machine.Pin.PULL_UP)
 wdt = machine.WDT(timeout=WDT_TIMEOUT_MS)
 
-
-def pattern(np):
-    n = np.n
-
-    # cycle
-    for i in range(1 * n):
-        for j in range(n):
-            np[j] = (0, 0, 0)
-        np[i % n] = (255, 255, 255)
-        np.write()
-
-
 screen_update_due = False
 ntp_update_due = False
 system_time_synchronised = False
@@ -157,6 +145,17 @@ def get_local_time(offset_seconds):
     local_seconds = utc_seconds + offset_seconds
     local_time_tuple = time.localtime(local_seconds)
     return local_time_tuple
+
+def pattern(np):
+    n = np.n
+
+    # cycle
+    for i in range(1 * n):
+        for j in range(n):
+            np[j] = (0, 0, 0)
+        np[i % n] = (255, 255, 255)
+        np.write()
+
     
 screen_timer.init(mode=machine.Timer.PERIODIC, period=SCREEN_UPDATE_INTERVAL_MS, callback=screen_update)
 ntp_timer.init(mode=machine.Timer.PERIODIC, period=NTP_TIME_SYNC_INTERVAL_MS, callback=ntp_update)
