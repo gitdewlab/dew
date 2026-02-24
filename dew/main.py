@@ -26,6 +26,18 @@ CLK                D18
 ------------------------------
 
 ------------------------------
+NEOPIXEL RING CONNECTION:
+------------------------------
+NEOPIXEL           ESP32
+
+VCC                5V
+
+GND                GND
+
+DIN                D33
+------------------------------
+
+------------------------------
 LIGHT SENSOR MODULE CONNECTION:
 ------------------------------
 LIGHT SENSOR       ESP32
@@ -66,6 +78,9 @@ DOTMATRIX_BRIGHTNESS_LEVEL_DARK = 0
 DOTMATRIX_BRIGHTNESS_LEVEL_LIGHT = 15
 LIGHT_SENSOR_DOUT_PIN = 15
 ONBOARD_LED_BLINK_PIN = 2
+NEOPIXEL_DATA_PIN = 33
+NEOPIXEL_PIXEL_COUNT = 24
+NEOPIXEL_PATTERN_DELAY_MS = 60
 WDT_TIMEOUT_MS = 30000
 DOT_MATRIX_STARTUP_MESSAGE = "TIME"
 DOT_MATRIX_STARTUP_MESSAGE_DURATION = 2
@@ -82,16 +97,16 @@ led = machine.Pin(ONBOARD_LED_BLINK_PIN, machine.Pin.OUT)
 spi = machine.SPI(SPI_BUS_FOR_DOTMATRIX_DISPLAY, baudrate=SPI_BUS_COMMUNICATION_BAUDRATE, polarity=1, phase=0, sck=machine.Pin(SPI_BUS_CLK_PIN), mosi=machine.Pin(SPI_BUS_DOUT_PIN))
 cs = machine.Pin(DOTMATRIX_CHIPSELECT_PIN, machine.Pin.OUT)
 display = dotmatrix.dotmatrix(spi, cs, DOTMATRIX_NUMBER_OF_MODULES)
+neo = neopixel.NeoPixel(machine.Pin(NEOPIXEL_DATA_PIN), NEOPIXEL_PIXEL_COUNT)
 dark = machine.Pin(LIGHT_SENSOR_DOUT_PIN, machine.Pin.IN, machine.Pin.PULL_UP)
 wdt = machine.WDT(timeout=WDT_TIMEOUT_MS)
 
-np = neopixel.NeoPixel(machine.Pin(33), 24)
 
 def pattern(np):
     n = np.n
 
     # cycle
-    for i in range(4 * n):
+    for i in range(1 * n):
         for j in range(n):
             np[j] = (0, 0, 0)
         np[i % n] = (255, 255, 255)
@@ -194,7 +209,7 @@ while True:
                 except OSError as e:
                     pass
         wdt.feed()
-        pattern(np)
+        pattern(neo)
         screen_update_due = False
         
     if ntp_update_due:
