@@ -51,7 +51,6 @@ DOUT               D15
 
 """
 
-
 import gc
 import ota
 import time
@@ -148,7 +147,8 @@ def get_local_time(offset_seconds):
     local_time_tuple = time.localtime(local_seconds)
     return local_time_tuple
 
-def rainbow(neo):
+def rainbow():
+    global colorPointer
     numpixel = neo.n
     colorPointer = colorPointer - numpixel + 1
     if colorPointer < 0:
@@ -219,7 +219,7 @@ while True:
                 except OSError as e:
                     pass
         wdt.feed()
-        rainbow(neo)
+        rainbow()
         screen_update_due = False
         
     if ntp_update_due:
