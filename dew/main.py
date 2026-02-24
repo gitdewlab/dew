@@ -149,7 +149,7 @@ def get_local_time(offset_seconds):
 
 def rainbow():
     global colorPointer
-    numpixel = neo.numPixels()
+    numpixel = neo.n
     colorPointer = colorPointer - numpixel + 1
     if colorPointer < 0:
         colorPointer = colorPointer + 1 + 255
