@@ -51,6 +51,7 @@ DOUT               D15
 
 """
 
+
 import gc
 import ota
 import time
@@ -104,6 +105,7 @@ wdt = machine.WDT(timeout=WDT_TIMEOUT_MS)
 screen_update_due = False
 ntp_update_due = False
 system_time_synchronised = False
+colorPointer = 0
 
 screen_timer = machine.Timer(SCREEN_UPDATE_HARDWARE_TIMER_ID)
 ntp_timer = machine.Timer(NTP_UPDATE_HARDWARE_TIMER_ID)
@@ -146,17 +148,26 @@ def get_local_time(offset_seconds):
     local_time_tuple = time.localtime(local_seconds)
     return local_time_tuple
 
-def pattern(np):
-    n = np.n
+def rainbow(neo):
+    numpixel = neo.n
+    colorPointer = colorPointer - numpixel + 1
+    if colorPointer < 0:
+        colorPointer = colorPointer + 1 + 255
+    for i in range(numpixel):
+        if colorPointer < 85:
+            pixelColor = colorPointer & 255
+            neo[i] = (pixelColor * 3, 255 - pixelColor * 3, 0)
+        elif colorPointer < 170:
+            pixelColor = colorPointer & 255 - 85
+            neo[i] = (255 - pixelColor * 3, 0, pixelColor * 3)
+        else:
+            pixelColor = colorPointer & 255 - 170
+            neo[i] = (0, pixelColor * 3, 255 - pixelColor * 3)
+        colorPointer = colorPointer + 1
+    if colorPointer > 255:
+        colorPointer = 0
+    neo.write()
 
-    # cycle
-    for i in range(1 * n):
-        for j in range(n):
-            np[j] = (0, 0, 0)
-        np[i % n] = (255, 255, 255)
-        np.write()
-
-    
 screen_timer.init(mode=machine.Timer.PERIODIC, period=SCREEN_UPDATE_INTERVAL_MS, callback=screen_update)
 ntp_timer.init(mode=machine.Timer.PERIODIC, period=NTP_TIME_SYNC_INTERVAL_MS, callback=ntp_update)
 
@@ -208,7 +219,7 @@ while True:
                 except OSError as e:
                     pass
         wdt.feed()
-        pattern(neo)
+        rainbow(neo)
         screen_update_due = False
         
     if ntp_update_due:
