@@ -188,12 +188,14 @@ def multi_sensor():
     global aht20_relative_humidity
     global bmp280_temperature
     global bmp280_pressure
+    global aht20
+    global bmp280
     if multi_sensor_active:
         try:
-            aht20_temperature = % aht20.temperature
-            aht20_relative_humidity = % aht20.relative_humidity
-            bmp280_temperature = % bmp280.temperature
-            bmp280_pressure = % bmp280.pressure
+            aht20_temperature = aht20.temperature
+            aht20_relative_humidity = aht20.relative_humidity
+            bmp280_temperature = bmp280.temperature
+            bmp280_pressure = bmp280.pressure
             print(aht20_temperature, bmp280_temperature, aht20_relative_humidity, bmp280_pressure)
         except OSError as e:
             print('sensor data collection failed')
