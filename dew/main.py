@@ -132,7 +132,7 @@ ntp_update_due = False
 cloud_update_due = False
 system_time_synchronised = False
 multi_sensor_active = False
-colorPointer = 0
+color_pointer = 0
 aht20_temperature = 0
 aht20_relative_humidity = 0
 bmp280_temperature = 0
@@ -214,24 +214,24 @@ def multi_sensor():
             multi_sensor_active = False  
 
 def rainbow():
-    global colorPointer
+    global color_pointer
     numpixel = neo.n
-    colorPointer = colorPointer - numpixel + 1
-    if colorPointer < 0:
-        colorPointer = colorPointer + 1 + 255
+    color_pointer = color_pointer - numpixel + 1
+    if color_pointer < 0:
+        color_pointer = color_pointer + 1 + 255
     for i in range(numpixel):
-        if colorPointer < 85:
-            pixelColor = colorPointer & 255
-            neo[i] = (pixelColor * 3, 255 - pixelColor * 3, 0)
-        elif colorPointer < 170:
-            pixelColor = colorPointer & 255 - 85
-            neo[i] = (255 - pixelColor * 3, 0, pixelColor * 3)
+        if color_pointer < 85:
+            pixel_color = color_pointer & 255
+            neo[i] = (pixel_color * 3, 255 - pixel_color * 3, 0)
+        elif color_pointer < 170:
+            pixel_color = color_pointer & 255 - 85
+            neo[i] = (255 - pixel_color * 3, 0, pixel_color * 3)
         else:
-            pixelColor = colorPointer & 255 - 170
-            neo[i] = (0, pixelColor * 3, 255 - pixelColor * 3)
-        colorPointer = colorPointer + 1
-        if colorPointer > 255:
-            colorPointer = 0
+            pixel_color = color_pointer & 255 - 170
+            neo[i] = (0, pixel_color * 3, 255 - pixel_color * 3)
+        color_pointer = color_pointer + 1
+        if color_pointer > 255:
+            color_pointer = 0
     neo.write()
 
 def ntp_update(timer):
