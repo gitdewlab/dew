@@ -188,14 +188,21 @@ def get_local_time(offset_seconds):
 
 def update_cloud():
     global ubidots_connected
-    if wlan.isconnected():
-        if not ubidots_connected:
+    if not ubidots_connected:
+        if wlan.isconnected():
             try:
                 ubidots.connect()
                 ubidots_connected = True
             except Exception as e:
                 pass
-    pass
+    if ubidots_connected:
+        try:
+
+        except Exception as e:
+            aht20_temperature = 0
+            aht20_relative_humidity = 0
+            bmp280_temperature = 0
+            bmp280_pressure = 0
 
 def multi_sensor():
     global multi_sensor_active
