@@ -268,13 +268,16 @@ while True:
             display.show()
             if sensor_update_due:
                 multi_sensor()
+                sensor_update_due = False
                 cloud_update_due = True
+                print('sensor data')
                 print(aht20_temperature, bmp280_temperature, aht20_relative_humidity, bmp280_pressure)
             elif cloud_update_due:
                 # update cloud
                 print('update cloud')
                 cloud_update_due = False
             else:
+                print('display ring')
                 rainbow()
         else:
             display.clear()
