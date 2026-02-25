@@ -193,7 +193,7 @@ def update_cloud():
             try:
                 ubidots.connect()
                 ubidots_connected = True
-            except OSError as e:
+            except Exception as e:
                 pass
     pass
 
