@@ -180,21 +180,6 @@ if wlan.isconnected():
     except OSError as e:
         pass
 
-if wlan.isconnected():
-    if not ubidots_connected:
-        try:
-            ubidots.connect()
-            ubidots_connected = True
-            print('tried to connect mqtt')
-            if ubidots:
-                print('mqtt connected')
-            if ubidots_connected:
-                print('ubidots connected')
-        except OSError as e:
-            print('could not connect mqtt')
-            ubidots_connected = False
-            pass
-
 def get_local_time(offset_seconds):
     utc_seconds = time.time()
     local_seconds = utc_seconds + offset_seconds
@@ -202,6 +187,21 @@ def get_local_time(offset_seconds):
     return local_time_tuple
 
 def update_cloud():
+    global ubidots_connected
+    if wlan.isconnected():
+        if not ubidots_connected:
+            try:
+                ubidots.connect()
+                ubidots_connected = True
+                print('tried to connect mqtt')
+                if ubidots:
+                    print('mqtt connected')
+                if ubidots_connected:
+                    print('ubidots connected')
+            except OSError as e:
+                print('could not connect mqtt')
+                ubidots_connected = False
+                pass
     pass
 
 def multi_sensor():
