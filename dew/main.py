@@ -138,6 +138,7 @@ ntp_update_due = False
 cloud_update_due = False
 system_time_synchronised = False
 multi_sensor_active = False
+ubidots_connected = False
 color_pointer = 0
 aht20_temperature = 0
 aht20_relative_humidity = 0
@@ -177,6 +178,19 @@ if wlan.isconnected():
         ntptime.settime()
         system_time_synchronised = True
     except OSError as e:
+        pass
+
+if wlan.isconnected():
+    try:
+        ubidots.connect()
+        ubidots_connected = True
+        print('tried to connect mqtt')
+        if ubidots:
+            print('mqtt connected')
+        if ubidots_connected:
+            print('ubidots connected')
+    except OSError as e:
+        print('could not connect mqtt')
         pass
 
 def get_local_time(offset_seconds):
