@@ -192,16 +192,14 @@ def multi_sensor():
     global bmp280
     if multi_sensor_active:
         try:
-            aht20_temperature = aht20.temperature
-            aht20_relative_humidity = aht20.relative_humidity
-            bmp280_temperature = bmp280.temperature
-            bmp280_pressure = bmp280.pressure
+            aht20_temperature = round(aht20.temperature,2)
+            aht20_relative_humidity = round(aht20.relative_humidity,2)
+            bmp280_temperature = round(bmp280.temperature,2)
+            bmp280_pressure = round(bmp280.pressure,2)
             print(aht20_temperature, bmp280_temperature, aht20_relative_humidity, bmp280_pressure)
         except OSError as e:
-            print('sensor data collection failed')
             multi_sensor_active = False
     else:
-        print('multi-sensor inactive')
         try:
             devices = i2c.scan()
             if len(devices) == 0:
