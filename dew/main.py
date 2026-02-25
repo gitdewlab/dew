@@ -125,6 +125,7 @@ display = dotmatrix.dotmatrix(spi, cs, DOTMATRIX_NUMBER_OF_MODULES)
 neo = neopixel.NeoPixel(machine.Pin(NEOPIXEL_DATA_PIN), NEOPIXEL_PIXEL_COUNT)
 dark = machine.Pin(LIGHT_SENSOR_DOUT_PIN, machine.Pin.IN, machine.Pin.PULL_UP)
 i2c = machine.I2C(I2C_BUS_FOR_SENSOR, scl=machine.Pin(I2C_SCL_PIN), sda=machine.Pin(I2C_SDA_PIN), freq=I2C_BUS_CLK_FREQUENCY)
+ubidots = umqtt.robust.MQTTClient("dew", "industrial.api.ubidots.com", 1883, user = BBUS-0NDcBvxd3JOsbMWpo0dJriK3gzo0Yi, password = BBUS-0NDcBvxd3JOsbMWpo0dJriK3gzo0Yi)
 wdt = machine.WDT(timeout=WDT_TIMEOUT_MS)
 
 screen_update_due = False
