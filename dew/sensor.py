@@ -1,13 +1,8 @@
-"""
-
-Reading AHT20+BMP280 temperature, humidity, pressure sensor over i2c bus
-
-"""
+# reading AHT20+BMP280 temperature, humidity, pressure sensor over i2c bus
 
 import time
 from micropython import const
 from ustruct import unpack as unp
-
 
 
 
@@ -86,11 +81,6 @@ class aht20:
         self._wait_for_idle()
         self._read_to_buffer()
         
-        
-        
-        
-        
-
 
 
 
