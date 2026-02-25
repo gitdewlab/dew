@@ -140,6 +140,7 @@ cloud_update_due = False
 system_time_synchronised = False
 multi_sensor_active = False
 ubidots_connected = False
+cloud_message = ''
 color_pointer = 0
 aht20_temperature = 0
 aht20_relative_humidity = 0
@@ -195,12 +196,13 @@ def update_cloud():
                 ubidots.connect()
                 ubidots_connected = True
             except Exception as e:
-                pass
+                ubidots_connected = False
+        else:
+            ubidots_connected = False
     if ubidots_connected:
         try:
             cloud_message = b"Temperature: 25C"
             ubidots.publish(UBIDOTS_MQTT_TOPIC, cloud_message)
-
         except Exception as e:
             pass
     aht20_temperature = 0
