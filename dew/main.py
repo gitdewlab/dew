@@ -257,6 +257,8 @@ while True:
             display.matrix(str(current_time[3]), x_offset=18)
             display.matrix(str(current_time[4]), x_offset=25)
             display.show()
+            multi_sensor()
+            rainbow()
         else:
             display.clear()
             display.text("::::")
@@ -289,8 +291,6 @@ while True:
                 except OSError as e:
                     pass
         wdt.feed()
-        multi_sensor()
-        rainbow()
         screen_update_due = False
         
     if ntp_update_due:
