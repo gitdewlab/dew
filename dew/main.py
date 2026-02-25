@@ -181,17 +181,19 @@ if wlan.isconnected():
         pass
 
 if wlan.isconnected():
-    try:
-        ubidots.connect()
-        ubidots_connected = True
-        print('tried to connect mqtt')
-        if ubidots:
-            print('mqtt connected')
-        if ubidots_connected:
-            print('ubidots connected')
-    except OSError as e:
-        print('could not connect mqtt')
-        pass
+    if not ubidots_connected:
+        try:
+            ubidots.connect()
+            ubidots_connected = True
+            print('tried to connect mqtt')
+            if ubidots:
+                print('mqtt connected')
+            if ubidots_connected:
+                print('ubidots connected')
+        except OSError as e:
+            print('could not connect mqtt')
+            ubidots_connected = False
+            pass
 
 def get_local_time(offset_seconds):
     utc_seconds = time.time()
