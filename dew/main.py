@@ -71,6 +71,7 @@ DOUT               D15
 import gc
 import ota
 import time
+import ujson
 import sensor
 import machine
 import network
@@ -140,7 +141,6 @@ cloud_update_due = False
 system_time_synchronised = False
 multi_sensor_active = False
 ubidots_connected = False
-cloud_message = ''
 color_pointer = 0
 aht20_temperature = 0
 aht20_relative_humidity = 0
@@ -190,6 +190,12 @@ def get_local_time(offset_seconds):
 
 def update_cloud():
     global ubidots_connected
+    
+    global aht20_temperature
+    global aht20_relative_humidity
+    global bmp280_temperature
+    global bmp280_pressure
+    
     if not ubidots_connected:
         if wlan.isconnected():
             try:
@@ -199,12 +205,19 @@ def update_cloud():
                 ubidots_connected = False
         else:
             ubidots_connected = False
+            
     if ubidots_connected:
         try:
-            cloud_message = b"Temperature: 25C"
-            ubidots.publish(UBIDOTS_MQTT_TOPIC, cloud_message)
+            sensor_data = {
+                "temperature": aht20_temperature,
+                "humidity": aht20_relative_humidity,
+                "pressure": bmp280_pressure
+            }
+            json_payload = ujson.dumps(sensor_data)
+            ubidots.publish(UBIDOTS_MQTT_TOPIC, json_payload.encode('utf-8'))
         except Exception as e:
-            pass
+            ubidots_connected = False
+            
     aht20_temperature = 0
     aht20_relative_humidity = 0
     bmp280_temperature = 0
@@ -212,12 +225,15 @@ def update_cloud():
 
 def multi_sensor():
     global multi_sensor_active
+    
     global aht20_temperature
     global aht20_relative_humidity
     global bmp280_temperature
     global bmp280_pressure
+    
     global aht20
     global bmp280
+    
     if multi_sensor_active:
         try:
             aht20_temperature = round(aht20.temperature,2)
@@ -246,8 +262,10 @@ def multi_sensor():
 
 def rainbow():
     global color_pointer
+    
     numpixel = neo.n
     color_pointer = color_pointer - numpixel + 1
+    
     if color_pointer < 0:
         color_pointer = color_pointer + 1 + 255
     for i in range(numpixel):
@@ -285,6 +303,7 @@ while True:
     if screen_update_due:
         if system_time_synchronised:
             led.value(not led.value())
+            
             current_local_time = get_local_time(TIMEZONE_OFFSET_SECONDS)
             #print("Local time: {0}/{1}/{2} {3}:{4}:{5}".format(*current_local_time))
             current_time = "{:02d}:{:02d}:{:02d}".format(current_local_time[3], current_local_time[4], current_local_time[5])
@@ -338,6 +357,7 @@ while True:
                             display.show()
                 except OSError as e:
                     pass
+                    
         wdt.feed()
         screen_update_due = False
         
@@ -374,6 +394,7 @@ while True:
                         display.show()
             except OSError as e:
                 pass
+                
         ntp_update_due = False
         
     time.sleep(LOOP_SLEEP_DELAY)
