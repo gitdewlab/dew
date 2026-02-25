@@ -266,18 +266,15 @@ while True:
             display.matrix(str(current_time[3]), x_offset=18)
             display.matrix(str(current_time[4]), x_offset=25)
             display.show()
+            
             if sensor_update_due:
                 multi_sensor()
                 sensor_update_due = False
                 cloud_update_due = True
-                print('sensor data')
-                print(aht20_temperature, bmp280_temperature, aht20_relative_humidity, bmp280_pressure)
             elif cloud_update_due:
                 # update cloud
-                print('update cloud')
                 cloud_update_due = False
             else:
-                print('display ring')
                 rainbow()
         else:
             display.clear()
@@ -312,6 +309,7 @@ while True:
                     pass
         wdt.feed()
         screen_update_due = False
+        
         if dark.value():
             display.brightness(DOTMATRIX_BRIGHTNESS_LEVEL_DARK)
         else:
@@ -346,4 +344,5 @@ while True:
             except OSError as e:
                 pass
         ntp_update_due = False
+        
     time.sleep(LOOP_SLEEP_DELAY)
