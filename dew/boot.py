@@ -2,7 +2,7 @@ import ota
 import machine
 import network
 
-# github repository access and files to update
+# downloading from github repository to update device files
 ota = ota.ota(
   user="gitdewlab",
   repo="dew",
