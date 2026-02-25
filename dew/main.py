@@ -179,6 +179,9 @@ def get_local_time(offset_seconds):
     local_time_tuple = time.localtime(local_seconds)
     return local_time_tuple
 
+def update_cloud():
+    pass
+
 def multi_sensor():
     global multi_sensor_active
     global aht20_temperature
@@ -272,7 +275,7 @@ while True:
                 sensor_update_due = False
                 cloud_update_due = True
             elif cloud_update_due:
-                # update cloud
+                update_cloud()
                 cloud_update_due = False
             else:
                 rainbow()
