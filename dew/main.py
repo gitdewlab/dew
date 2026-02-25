@@ -309,6 +309,10 @@ while True:
                     pass
         wdt.feed()
         screen_update_due = False
+        if dark.value():
+            display.brightness(DOTMATRIX_BRIGHTNESS_LEVEL_DARK)
+        else:
+            display.brightness(DOTMATRIX_BRIGHTNESS_LEVEL_LIGHT)
         
     if ntp_update_due:
         if wlan.isconnected():
@@ -339,10 +343,4 @@ while True:
             except OSError as e:
                 pass
         ntp_update_due = False
-
-    if dark.value():
-        display.brightness(DOTMATRIX_BRIGHTNESS_LEVEL_DARK)
-    else:
-        display.brightness(DOTMATRIX_BRIGHTNESS_LEVEL_LIGHT)
-        
     time.sleep(LOOP_SLEEP_DELAY)
