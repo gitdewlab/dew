@@ -129,6 +129,7 @@ wdt = machine.WDT(timeout=WDT_TIMEOUT_MS)
 screen_update_due = False
 sensor_update_due = False
 ntp_update_due = False
+cloud_update_due = False
 system_time_synchronised = False
 multi_sensor_active = False
 colorPointer = 0
@@ -265,9 +266,16 @@ while True:
             display.matrix(str(current_time[3]), x_offset=18)
             display.matrix(str(current_time[4]), x_offset=25)
             display.show()
-            multi_sensor()
-            print(aht20_temperature, bmp280_temperature, aht20_relative_humidity, bmp280_pressure)
-            rainbow()
+            if sensor_update_due:
+                multi_sensor()
+                cloud_update_due = True
+                print(aht20_temperature, bmp280_temperature, aht20_relative_humidity, bmp280_pressure)
+            elif cloud_update_due:
+                # update cloud
+                print('update cloud')
+                cloud_update_due = False
+            else:
+                rainbow()
         else:
             display.clear()
             display.text("::::")
