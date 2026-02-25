@@ -54,6 +54,7 @@ DOUT               D15
 import gc
 import ota
 import time
+import sensor
 import machine
 import network
 import ntptime
@@ -80,6 +81,10 @@ LIGHT_SENSOR_DOUT_PIN = 15
 ONBOARD_LED_BLINK_PIN = 2
 NEOPIXEL_DATA_PIN = 33
 NEOPIXEL_PIXEL_COUNT = 24
+I2C_BUS_FOR_SENSOR = 0
+I2C_SDA_PIN = 21
+I2C_SCL_PIN = 22
+I2C_BUS_CLK_FREQUENCY = 400000
 LOOP_SLEEP_DELAY = 0.05
 WDT_TIMEOUT_MS = 30000
 DOT_MATRIX_STARTUP_MESSAGE = "TIME"
@@ -99,6 +104,7 @@ cs = machine.Pin(DOTMATRIX_CHIPSELECT_PIN, machine.Pin.OUT)
 display = dotmatrix.dotmatrix(spi, cs, DOTMATRIX_NUMBER_OF_MODULES)
 neo = neopixel.NeoPixel(machine.Pin(NEOPIXEL_DATA_PIN), NEOPIXEL_PIXEL_COUNT)
 dark = machine.Pin(LIGHT_SENSOR_DOUT_PIN, machine.Pin.IN, machine.Pin.PULL_UP)
+i2c = machine.I2C(I2C_BUS_FOR_SENSOR, scl=machine.Pin(I2C_SCL_PIN), sda=machine.Pin(I2C_SDA_PIN), freq=I2C_BUS_CLK_FREQUENCY)
 wdt = machine.WDT(timeout=WDT_TIMEOUT_MS)
 
 screen_update_due = False
