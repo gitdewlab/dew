@@ -193,14 +193,7 @@ def update_cloud():
             try:
                 ubidots.connect()
                 ubidots_connected = True
-                print('tried to connect mqtt')
-                if ubidots:
-                    print('mqtt connected')
-                if ubidots_connected:
-                    print('ubidots connected')
             except OSError as e:
-                print('could not connect mqtt')
-                ubidots_connected = False
                 pass
     pass
 
