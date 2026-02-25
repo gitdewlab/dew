@@ -196,7 +196,6 @@ def multi_sensor():
             aht20_relative_humidity = round(aht20.relative_humidity,2)
             bmp280_temperature = round(bmp280.temperature,2)
             bmp280_pressure = round(bmp280.pressure,2)
-            print(aht20_temperature, bmp280_temperature, aht20_relative_humidity, bmp280_pressure)
         except OSError as e:
             multi_sensor_active = False
     else:
@@ -258,6 +257,7 @@ while True:
             display.matrix(str(current_time[4]), x_offset=25)
             display.show()
             multi_sensor()
+            print(aht20_temperature, bmp280_temperature, aht20_relative_humidity, bmp280_pressure)
             rainbow()
         else:
             display.clear()
