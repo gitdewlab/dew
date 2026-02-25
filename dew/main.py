@@ -38,7 +38,21 @@ DIN                D33
 ------------------------------
 
 ------------------------------
-LIGHT SENSOR MODULE CONNECTION:
+MULTI-SENSOR CONNECTION:
+------------------------------
+MULTI-SENSOR       ESP32
+
+VCC                3V3
+
+GND                GND
+
+SDA                D21
+
+SCL                D22
+------------------------------
+
+------------------------------
+LIGHT SENSOR CONNECTION:
 ------------------------------
 LIGHT SENSOR       ESP32
 
