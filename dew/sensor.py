@@ -1,6 +1,6 @@
 """
 
-MicroPython library for the AHT20+BMP280 temperature, humidity, pressure sensor
+Reading AHT20+BMP280 temperature, humidity, pressure sensor over i2c bus
 
 """
 
