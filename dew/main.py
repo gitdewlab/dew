@@ -113,7 +113,7 @@ TIMEZONE_OFFSET_SECONDS = 19800
 UBIDOTS_BROKER = "industrial.api.ubidots.com"
 UBIDOTS_CLIENT = "dew"                                       ### check and customise ###
 UBIDOTS_MQTT_PORT = 1883
-UBIDOTS_MQTT_TOPIC = b"dewlab/dew/sensors"                   ### check and customise ###
+UBIDOTS_MQTT_TOPIC = b"/v1.6/devices/dew"                    ### check and customise ###
 UBIDOTS_TOKEN = "BBUS-0NDcBvxd3JOsbMWpo0dJriK3gzo0Yi"        ### check and customise ###
 WDT_TIMEOUT_MS = 30000
 
