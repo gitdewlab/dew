@@ -25,6 +25,7 @@ CS                 D5
 CLK                D18
 ------------------------------
 
+
 ------------------------------
 NEOPIXEL RING CONNECTION:
 ------------------------------
@@ -36,6 +37,7 @@ GND                GND
 
 DIN                D33
 ------------------------------
+
 
 ------------------------------
 MULTI-SENSOR CONNECTION:
@@ -50,6 +52,7 @@ SDA                D21
 
 SCL                D22
 ------------------------------
+
 
 ------------------------------
 LIGHT SENSOR CONNECTION:
@@ -126,6 +129,10 @@ ntp_update_due = False
 system_time_synchronised = False
 multi_sensor_active = False
 colorPointer = 0
+aht20_temperature = 0
+aht20_relative_humidity = 0
+bmp280_temperature = 0
+bmp280_pressure = 0
 
 screen_timer = machine.Timer(SCREEN_UPDATE_HARDWARE_TIMER_ID)
 ntp_timer = machine.Timer(NTP_UPDATE_HARDWARE_TIMER_ID)
@@ -174,6 +181,41 @@ def get_local_time(offset_seconds):
     local_seconds = utc_seconds + offset_seconds
     local_time_tuple = time.localtime(local_seconds)
     return local_time_tuple
+
+def multi_sensor():
+    global multi_sensor_active
+    global aht20_temperature
+    global aht20_relative_humidity
+    global bmp280_temperature
+    global bmp280_pressure
+    if multi_sensor_active:
+        try:
+            aht20_temperature = aht20.temperature
+            aht20_relative_humidity = aht20.relative_humidity
+            bmp280_temperature = bmp280.temperature
+            bmp280_pressure = bmp280.pressure
+            print(aht20_temperature, bmp280_temperature, aht20_relative_humidity, bmp280_pressure)
+        except OSError as e:
+            print('sensor data collection failed')
+            multi_sensor_active = False
+    else:
+        print('multi-sensor inactive')
+        try:
+            devices = i2c.scan()
+            if len(devices) == 0:
+                multi_sensor_active = False
+            else:
+                #print(f"Found {len(devices)} I2C devices:\n")
+                #for device in devices:
+                    #print(f"Decimal address: {device} | Hexadecimal address: {hex(device)}") 
+                try:
+                    aht20 = sensor.aht20(i2c)
+                    bmp280 = sensor.bmp280(i2c)
+                    multi_sensor_active = True
+                except OSError as e:
+                    multi_sensor_active = False
+        except OSError as e:
+            multi_sensor_active = False  
 
 def rainbow():
     global colorPointer
@@ -247,6 +289,7 @@ while True:
                 except OSError as e:
                     pass
         wdt.feed()
+        multi_sensor()
         rainbow()
         screen_update_due = False
         
