@@ -199,10 +199,11 @@ def update_cloud():
         try:
 
         except Exception as e:
-            aht20_temperature = 0
-            aht20_relative_humidity = 0
-            bmp280_temperature = 0
-            bmp280_pressure = 0
+            pass
+    aht20_temperature = 0
+    aht20_relative_humidity = 0
+    bmp280_temperature = 0
+    bmp280_pressure = 0
 
 def multi_sensor():
     global multi_sensor_active
