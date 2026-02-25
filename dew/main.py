@@ -71,6 +71,7 @@ DOUT               D15
 import gc
 import ota
 import time
+import umqtt
 import sensor
 import machine
 import network
