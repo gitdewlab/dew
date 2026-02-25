@@ -124,11 +124,19 @@ wdt = machine.WDT(timeout=WDT_TIMEOUT_MS)
 screen_update_due = False
 ntp_update_due = False
 system_time_synchronised = False
+multi_sensor_active = False
 colorPointer = 0
 
 screen_timer = machine.Timer(SCREEN_UPDATE_HARDWARE_TIMER_ID)
 ntp_timer = machine.Timer(NTP_UPDATE_HARDWARE_TIMER_ID)
 display.brightness(DOTMATRIX_BRIGHTNESS_LEVEL_DARK)
+
+try:
+    aht20 = sensor.aht20(i2c)
+    bmp280 = sensor.bmp280(i2c)
+    multi_sensor_active = True
+except OSError as e:
+    multi_sensor_active = False    
 
 ap_if = network.WLAN(network.AP_IF)
 if ap_if.active():
