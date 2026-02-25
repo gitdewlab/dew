@@ -83,8 +83,10 @@ import dotmatrix
 
 TIMEZONE_OFFSET_SECONDS = 19800
 SCREEN_UPDATE_INTERVAL_MS = 500
+SENSOR_UPDATE_INTERVAL_MS = 10000
 NTP_TIME_SYNC_INTERVAL_MS = 900000
 SCREEN_UPDATE_HARDWARE_TIMER_ID = 2
+SENSOR_UPDATE_HARDWARE_TIMER_ID = 1
 NTP_UPDATE_HARDWARE_TIMER_ID = 3
 SPI_BUS_FOR_DOTMATRIX_DISPLAY = 2
 SPI_BUS_COMMUNICATION_BAUDRATE = 10000000
@@ -125,6 +127,7 @@ i2c = machine.I2C(I2C_BUS_FOR_SENSOR, scl=machine.Pin(I2C_SCL_PIN), sda=machine.
 wdt = machine.WDT(timeout=WDT_TIMEOUT_MS)
 
 screen_update_due = False
+sensor_update_due = False
 ntp_update_due = False
 system_time_synchronised = False
 multi_sensor_active = False
@@ -135,6 +138,7 @@ bmp280_temperature = 0
 bmp280_pressure = 0
 
 screen_timer = machine.Timer(SCREEN_UPDATE_HARDWARE_TIMER_ID)
+sensor_timer = machine.Timer(SENSOR_UPDATE_HARDWARE_TIMER_ID)
 ntp_timer = machine.Timer(NTP_UPDATE_HARDWARE_TIMER_ID)
 display.brightness(DOTMATRIX_BRIGHTNESS_LEVEL_DARK)
 
@@ -167,14 +171,6 @@ if wlan.isconnected():
         system_time_synchronised = True
     except OSError as e:
         pass
-
-def ntp_update(timer):
-    global ntp_update_due
-    ntp_update_due = True
-
-def screen_update(timer):
-    global screen_update_due
-    screen_update_due = True
 
 def get_local_time(offset_seconds):
     utc_seconds = time.time()
@@ -237,7 +233,20 @@ def rainbow():
             colorPointer = 0
     neo.write()
 
+def ntp_update(timer):
+    global ntp_update_due
+    ntp_update_due = True
+
+def sensor_update(timer):
+    global sensor_update_due
+    sensor_update_due = True
+
+def screen_update(timer):
+    global screen_update_due
+    screen_update_due = True
+
 screen_timer.init(mode=machine.Timer.PERIODIC, period=SCREEN_UPDATE_INTERVAL_MS, callback=screen_update)
+sensor_timer.init(mode=machine.Timer.PERIODIC, period=SENSOR_UPDATE_INTERVAL_MS, callback=sensor_update)
 ntp_timer.init(mode=machine.Timer.PERIODIC, period=NTP_TIME_SYNC_INTERVAL_MS, callback=ntp_update)
 
 while True:
