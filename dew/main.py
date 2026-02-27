@@ -222,6 +222,7 @@ def get_local_time(offset_seconds):
 
 def initiate_onewire_read():
     global ds18b20_temperature
+    global onewire_sensor_active
     
     if onewire_sensor_active:
         try:
@@ -234,6 +235,7 @@ def initiate_onewire_read():
 
 def onewire_read_data():
     global ds18b20_temperature
+    global onewire_sensor_active
     
     if onewire_sensor_active:
         try:
