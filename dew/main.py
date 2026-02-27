@@ -253,6 +253,7 @@ def update_cloud():
     global aht20_relative_humidity
     global bmp280_temperature
     global bmp280_pressure
+    global ds18b20_temperature
     
     if not ubidots_connected:
         if wlan.isconnected():
